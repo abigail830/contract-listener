@@ -21,6 +21,26 @@
 		<swagger.version>2.9.2</swagger.version>
 	</properties>
 
+	<scm>
+		<connection>scm:git:https://github.com/abigail830/contract-listener.git</connection>
+		<developerConnection>scm:git:https://github.com/abigail830/contract-listener.git</developerConnection>
+		<url>https://github.com/abigail830/contract-listener</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>nexus</id>
+			<name>maven-snapshots</name>
+			<url>http://nexus.saraqian.cn/repository/maven-snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>nexus</id>
+			<name>maven-releases</name>
+			<url>http://nexus.saraqian.cn/repository/maven-releases/</url>
+		</repository>
+	</distributionManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
