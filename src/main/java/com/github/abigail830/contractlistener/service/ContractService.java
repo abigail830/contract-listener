@@ -3,12 +3,12 @@ package com.github.abigail830.contractlistener.service;
 import com.github.abigail830.contractlistener.domain.ContractDTO;
 import com.github.abigail830.contractlistener.entity.Contract;
 import com.github.abigail830.contractlistener.repository.ContractRepository;
+import com.github.abigail830.contractlistener.util.JenkinsTrigger;
 import io.micrometer.core.instrument.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,20 +20,27 @@ public class ContractService {
     public List<ContractDTO> addOrUpdateContract(ContractDTO contractDTO){
         Contract contract = contractDTO.convertToEntity();
         contractRepository.save(contract);
-        //query back the latest image from DB
-        return contractRepository.findAll().stream().map(ContractDTO::new).collect(Collectors.toList());
-    }
 
-    public List<ContractDTO> getAllContract(){
+        JenkinsTrigger.build();
+
+        //query back the latest image from DB
         return contractRepository.findAll().stream().map(ContractDTO::new).collect(Collectors.toList());
     }
 
     public List<ContractDTO> deleteContract(ContractDTO contractDTO){
         Contract contract = contractDTO.convertToEntity();
         contractRepository.delete(contract);
+
+        JenkinsTrigger.build();
+
+        //query back the latest image from DB
         return contractRepository.findAll().stream().map(ContractDTO::new).collect(Collectors.toList());
     }
 
+
+    public List<ContractDTO> getAllContract(){
+        return contractRepository.findAll().stream().map(ContractDTO::new).collect(Collectors.toList());
+    }
 
     public ContractDTO getContractDomainById(String id){
         return contractRepository.findById(id).map(contract -> new ContractDTO(contract)).orElse(null);
