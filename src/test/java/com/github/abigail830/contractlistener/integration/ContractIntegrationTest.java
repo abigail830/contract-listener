@@ -1,6 +1,7 @@
-package com.github.abigail830.contractlistener;
+package com.github.abigail830.contractlistener.integration;
 
 import com.github.abigail830.contractlistener.domain.ContractDTO;
+import com.github.abigail830.contractlistener.service.ContractAuditTrailService;
 import com.github.abigail830.contractlistener.service.ContractService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,10 +16,13 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 //@DataMongoTest
-public class IntegrationTest {
+public class ContractIntegrationTest {
 
 	@Autowired
 	ContractService contractService;
+
+	@Autowired
+	ContractAuditTrailService contractAuditTrailService;
 
 	@Before
 	public void setUp() throws Exception {
@@ -52,6 +56,8 @@ public class IntegrationTest {
 
 		List<ContractDTO> contractDTOByUrl3 = contractService.getContractDomainByUrl("Url3");
 		Assert.assertEquals(0, contractDTOByUrl3.size());
+
+		Assert.assertEquals(2, contractAuditTrailService.getAllContractAuditTrail().size());
 
 	}
 

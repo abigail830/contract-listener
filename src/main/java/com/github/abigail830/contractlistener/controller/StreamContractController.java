@@ -2,7 +2,6 @@ package com.github.abigail830.contractlistener.controller;
 
 import com.github.abigail830.contractlistener.domain.ContractDTO;
 import com.github.abigail830.contractlistener.domain.StreamContractDTO;
-import com.github.abigail830.contractlistener.entity.Contract;
 import com.github.abigail830.contractlistener.service.StreamContractService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

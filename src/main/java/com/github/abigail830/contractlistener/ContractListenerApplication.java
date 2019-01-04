@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -21,6 +21,7 @@ import java.util.List;
 @SpringBootApplication
 @Configuration
 @EnableSwagger2
+@EnableMongoAuditing
 public class ContractListenerApplication {
 
 	public static void main(String[] args) {

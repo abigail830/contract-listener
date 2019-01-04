@@ -5,6 +5,10 @@ import com.github.abigail830.contractlistener.entity.ContractAuditTrail;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Getter
 @Setter
@@ -12,7 +16,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("ContractDTO")
-public class ContractDTO {
+public class ContractAuditTrailDTO {
 
     private String id;
 
@@ -37,19 +41,13 @@ public class ContractDTO {
     @ApiModelProperty(value = "契约类型", notes = "如yml或者groovy", example = "yml")
     private String contractType;
 
-    public ContractDTO(Contract contractEntity) {
-        this.setId(contractEntity.getId());
-        this.setProviderName(contractEntity.getProviderName());
-        this.setProviderSystem(contractEntity.getProviderSystem());
-        this.setConsumerName(contractEntity.getConsumerName());
-        this.setConsumerSystem(contractEntity.getConsumerSystem());
-        this.setUrl(contractEntity.getUrl());
-        this.setHttpMethod(contractEntity.getHttpMethod());
-        this.setContract(contractEntity.getContract());
-        this.setContractType(contractEntity.getContractType());
-    }
+    @ApiModelProperty(value = "最后修改契约的时间", example = "yml")
+    private DateTime lastModified;
 
-    public ContractDTO(ContractAuditTrail contractAuditTrail) {
+    @ApiModelProperty(value = "最后修改契约的用户", example = "SaraQian")
+    private String lastModifiedBy;
+
+    public ContractAuditTrailDTO(ContractAuditTrail contractAuditTrail) {
         this.setId(contractAuditTrail.getId());
         this.setProviderName(contractAuditTrail.getProviderName());
         this.setProviderSystem(contractAuditTrail.getProviderSystem());
@@ -59,33 +57,21 @@ public class ContractDTO {
         this.setHttpMethod(contractAuditTrail.getHttpMethod());
         this.setContract(contractAuditTrail.getContract());
         this.setContractType(contractAuditTrail.getContractType());
+        this.setLastModified(contractAuditTrail.getLastModified());
+        this.setLastModifiedBy(contractAuditTrail.getLastModifiedBy());
     }
 
-    public Contract convertToEntity() {
-        Contract contract =new Contract();
-        contract.setId(this.getId());
-        contract.setProviderName(this.getProviderName());
-        contract.setProviderSystem(this.getProviderSystem());
-        contract.setConsumerName(this.getConsumerName());
-        contract.setConsumerSystem(this.getConsumerSystem());
-        contract.setUrl(this.getUrl());
-        contract.setHttpMethod(this.getHttpMethod());
-        contract.setContract(this.getContract());
-        contract.setContractType(this.getContractType());
-        return contract;
-    }
-
-    public ContractAuditTrail convertToAuditTrail() {
-        ContractAuditTrail contract =new ContractAuditTrail();
-        contract.setId(this.getId());
-        contract.setProviderName(this.getProviderName());
-        contract.setProviderSystem(this.getProviderSystem());
-        contract.setConsumerName(this.getConsumerName());
-        contract.setConsumerSystem(this.getConsumerSystem());
-        contract.setUrl(this.getUrl());
-        contract.setHttpMethod(this.getHttpMethod());
-        contract.setContract(this.getContract());
-        contract.setContractType(this.getContractType());
-        return contract;
-    }
+//    public ContractAuditTrail convertToAuditTrail() {
+//        ContractAuditTrail contractAuditTrail =new ContractAuditTrail();
+//        contractAuditTrail.setId(this.getId());
+//        contractAuditTrail.setProviderName(this.getProviderName());
+//        contractAuditTrail.setProviderSystem(this.getProviderSystem());
+//        contractAuditTrail.setConsumerName(this.getConsumerName());
+//        contractAuditTrail.setConsumerSystem(this.getConsumerSystem());
+//        contractAuditTrail.setUrl(this.getUrl());
+//        contractAuditTrail.setHttpMethod(this.getHttpMethod());
+//        contractAuditTrail.setContract(this.getContract());
+//        contractAuditTrail.setContractType(this.getContractType());
+//        return contractAuditTrail;
+//    }
 }

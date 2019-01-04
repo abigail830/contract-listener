@@ -11,22 +11,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @ToString
 @NoArgsConstructor
-@Document
+@Document(collection="contract")
 public class Contract {
 
     @Id
-    public String id;
+    private String id;
 
-    public String providerSystem;
-    public String providerName;
-    public String consumerSystem;
-    public String consumerName;
+    private String providerSystem;
+    private String providerName;
+    private String consumerSystem;
+    private String consumerName;
 
-    public String url;
-    public String httpMethod;
+    private String url;
+    private String httpMethod;
 
-    public String contract;
-    public String contractType;
+    private String contract;
+    private String contractType;
 
 
     public Contract(String providerSystem, String providerName, String consumerSystem, String consumerName) {

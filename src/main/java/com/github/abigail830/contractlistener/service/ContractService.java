@@ -2,9 +2,13 @@ package com.github.abigail830.contractlistener.service;
 
 import com.github.abigail830.contractlistener.domain.ContractDTO;
 import com.github.abigail830.contractlistener.entity.Contract;
+import com.github.abigail830.contractlistener.entity.ContractAuditTrail;
+import com.github.abigail830.contractlistener.repository.ContractAuditTrailRepository;
 import com.github.abigail830.contractlistener.repository.ContractRepository;
 import com.github.abigail830.contractlistener.util.JenkinsTrigger;
 import io.micrometer.core.instrument.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +18,21 @@ import java.util.stream.Collectors;
 @Service
 public class ContractService {
 
+    private static final Logger logger = LoggerFactory.getLogger(ContractService.class);
+
     @Autowired
     ContractRepository contractRepository;
+
+    @Autowired
+    ContractAuditTrailRepository contractAuditTrailRepository;
 
     public List<ContractDTO> addOrUpdateContract(ContractDTO contractDTO){
         Contract contract = contractDTO.convertToEntity();
         contractRepository.save(contract);
+
+        logger.info("Adding audit trail for contract.");
+        ContractAuditTrail contractAuditTrail = contractDTO.convertToAuditTrail();
+        contractAuditTrailRepository.save(contractAuditTrail);
 
         JenkinsTrigger.build();
 
@@ -30,6 +43,10 @@ public class ContractService {
     public List<ContractDTO> deleteContract(ContractDTO contractDTO){
         Contract contract = contractDTO.convertToEntity();
         contractRepository.delete(contract);
+
+        logger.info("Adding audit trail for contract.");
+        ContractAuditTrail contractAuditTrail = contractDTO.convertToAuditTrail();
+        contractAuditTrailRepository.save(contractAuditTrail);
 
         JenkinsTrigger.build();
 
