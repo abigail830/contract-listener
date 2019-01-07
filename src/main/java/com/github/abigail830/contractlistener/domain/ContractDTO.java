@@ -67,6 +67,7 @@ public class ContractDTO {
         this.setApi(contractAuditTrail.getApi());
         this.setMethod(contractAuditTrail.getMethod());
         this.setRequest(contractAuditTrail.getRequest());
+        this.setResponse(contractAuditTrail.getResponse());
         this.setContractType(contractAuditTrail.getContractType());
     }
 
@@ -80,6 +81,7 @@ public class ContractDTO {
         contract.setApi(this.getApi());
         contract.setMethod(this.getMethod());
         contract.setRequest(this.getRequest());
+        contract.setResponse(this.getResponse());
         contract.setContractType(this.getContractType());
         return contract;
     }
