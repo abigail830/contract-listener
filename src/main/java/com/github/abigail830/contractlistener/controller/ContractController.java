@@ -33,12 +33,11 @@ public class ContractController {
     @ApiResponses(value = {@ApiResponse(code = 201, message = "创建成功")})
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ResponseEntity addNewContract(
+    public ResponseEntity<ContractDTO> addNewContract(
             @RequestBody ContractDTO contractDTO) throws ParseException {
 
         if (contractDTO.getId() != null)
             throw new IllegalArgumentException("ID should not be assigned when HTTP.POST to add new contract. ");
-
 
         logger.info("Going to insert new request: {}", contractDTO);
         return new ResponseEntity<>(contractService.addContract(contractDTO), HttpStatus.CREATED);
@@ -80,7 +79,7 @@ public class ContractController {
             response = ContractDTO.class)
     @ApiResponses(value = {@ApiResponse(code = 200, message = "请求成功")})
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<ContractDTO> getContractsByExample(
+    public ResponseEntity<List<ContractDTO>> getContractsByExample(
             @ApiParam("消费者系统") @RequestParam(value = "consumerSystem", required = false) String consumerSystem,
             @ApiParam("消费者ID") @RequestParam(value = "consumerID", required = false) String consumerID,
             @ApiParam("生产者系统") @RequestParam(value = "providerSystem", required = false) String providerSystem,
@@ -90,8 +89,8 @@ public class ContractController {
             @ApiParam("契约类型") @RequestParam(value = "contractType", required = false) String contractType) {
 
         logger.info("Retrieving contracts info from DB.");
-        return contractService.getContractsByExample(consumerSystem, consumerID, providerSystem, providerID,
-                api, method, contractType);
+        return new ResponseEntity<>(contractService.getContractsByExample(consumerSystem, consumerID,
+                providerSystem, providerID, api, method, contractType), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Collect contracts filter by specified id",
