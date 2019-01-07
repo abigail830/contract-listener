@@ -16,4 +16,9 @@ public interface ContractRepository extends MongoRepository<Contract, String> {
     public List<Contract> findByConsumerSystemAndConsumerID(String consumerSystem, String consumerID);
     public List<Contract> findByConsumerSystem(String consumerSystem);
     public List<Contract> findByConsumerID(String consumerID);
+//
+//    public List<Contract> findByConsumerSystemAndConsumerIDAndProviderSystemAndProviderIDAndApiAndMethod(
+//            String consumerSystem, String consumerID,
+//            String providerSystem, String providerID,
+//            String api, String method);
 }

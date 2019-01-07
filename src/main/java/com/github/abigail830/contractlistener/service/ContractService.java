@@ -37,7 +37,7 @@ public class ContractService {
         JenkinsTrigger.build();
 
         //query back the latest image from DB
-        return null;
+        return new ContractDTO(contract);
     }
 
     public ContractDTO updateContract(ContractDTO contractDTO){
