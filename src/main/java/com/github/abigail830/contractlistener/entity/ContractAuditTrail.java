@@ -2,7 +2,9 @@ package com.github.abigail830.contractlistener.entity;
 
 import lombok.*;
 import org.joda.time.DateTime;
-import org.springframework.data.annotation.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Setter
@@ -16,6 +18,8 @@ public class ContractAuditTrail {
     @Id
     private String id;
 
+    private String contractID;
+
     private String providerSystem;
     private String providerID;
     private String consumerSystem;
@@ -27,7 +31,11 @@ public class ContractAuditTrail {
     private String request;
     private String response;
 
+    private String desc;
+
     private String contractType;
+
+    private String lastModifiedAction;
 
 //    @CreatedDate
 //    private DateTime createdAt;

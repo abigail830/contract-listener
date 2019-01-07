@@ -16,6 +16,9 @@ public class ContractAuditTrailDTO {
 
     private String id;
 
+    @ApiModelProperty(value = "契约ID", example = "5c32fd739a3f1265fbab5087")
+    private String contractID;
+
     @ApiModelProperty(value = "契约生产者服务所属系统名称", example = "provider-system")
     private String providerSystem;
 
@@ -39,8 +42,14 @@ public class ContractAuditTrailDTO {
     @ApiModelProperty(value = "契约内容Response部分")
     private String response;
 
+    @ApiModelProperty(value = "契约概要描述", example = "This is the description")
+    private String desc;
+
     @ApiModelProperty(value = "契约类型", notes = "如yml或者groovy", example = "yml")
     private String contractType;
+
+    @ApiModelProperty(value = "最后修改契约的动作", example = "ADD")
+    private String lastModifiedAction;
 
     @ApiModelProperty(value = "最后修改契约的时间", example = "yml")
     private DateTime lastModified;
@@ -50,6 +59,7 @@ public class ContractAuditTrailDTO {
 
     public ContractAuditTrailDTO(ContractAuditTrail contractAuditTrail) {
         this.setId(contractAuditTrail.getId());
+        this.setContractID(contractAuditTrail.getContractID());
         this.setProviderID(contractAuditTrail.getProviderID());
         this.setProviderSystem(contractAuditTrail.getProviderSystem());
         this.setConsumerID(contractAuditTrail.getConsumerID());
@@ -59,22 +69,11 @@ public class ContractAuditTrailDTO {
         this.setRequest(contractAuditTrail.getRequest());
         this.setResponse(contractAuditTrail.getResponse());
         this.setContractType(contractAuditTrail.getContractType());
+        this.setLastModifiedAction(contractAuditTrail.getLastModifiedAction());
+        this.setDesc(contractAuditTrail.getDesc());
+
         this.setLastModified(contractAuditTrail.getLastModified());
         this.setLastModifiedBy(contractAuditTrail.getLastModifiedBy());
     }
 
-//    public ContractAuditTrail convertToAuditTrail() {
-//        ContractAuditTrail contractAuditTrail =new ContractAuditTrail();
-//        contractAuditTrail.setId(this.getId());
-//        contractAuditTrail.setProviderID(this.getProviderID());
-//        contractAuditTrail.setProviderSystem(this.getProviderSystem());
-//        contractAuditTrail.setConsumerID(this.getConsumerID());
-//        contractAuditTrail.setConsumerSystem(this.getConsumerSystem());
-//        contractAuditTrail.setApi(this.getApi());
-//        contractAuditTrail.setMethod(this.getMethod());
-//        contractAuditTrail.setRequest(this.getRequest());
-//        contractAuditTrail.setResponse(this.getResponse());
-//        contractAuditTrail.setContractType(this.getContractType());
-//        return contractAuditTrail;
-//    }
 }

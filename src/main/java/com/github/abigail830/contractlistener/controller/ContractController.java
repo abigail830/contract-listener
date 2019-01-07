@@ -80,14 +80,22 @@ public class ContractController {
 
     }
 
-    @ApiOperation(value = "Collect full list of contracts",
+    @ApiOperation(value = "Collect list of contracts by criteria",
             notes = "获取契约总列表",
             response = ContractDTO.class)
     @ApiResponses(value = {@ApiResponse(code = 200, message = "请求成功")})
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<ContractDTO> getAllContracts() {
-        logger.info("Retrieving all contracts info from DB");
-        return contractService.getAllContract();
+    public List<ContractDTO> getContractsByExample(
+            @ApiParam("消费者系统") @RequestParam(value = "consumerSystem", required = false) String consumerSystem,
+            @ApiParam("消费者ID") @RequestParam(value = "consumerID", required = false) String consumerID,
+            @ApiParam("生产者系统") @RequestParam(value = "providerSystem", required = false) String providerSystem,
+            @ApiParam("生产者ID") @RequestParam(value = "providerID", required = false) String providerID,
+            @ApiParam("HTTP URL") @RequestParam(value = "api", required = false) String api,
+            @ApiParam("HTTP方法") @RequestParam(value = "method", required = false) String method) {
+
+
+        logger.info("Retrieving contracts info from DB.");
+        return contractService.getContractsByExample(consumerSystem, consumerID, providerSystem, providerID, api, method);
     }
 
     @ApiOperation(value = "Collect contracts filter by provider info",
@@ -118,18 +126,6 @@ public class ContractController {
         return contractService.getContractDomainByConsumerInfo(consumerSystem,consumerName);
     }
 
-    @ApiOperation(value = "Collect contracts filter by specified api",
-            notes = "获取指定URL路径的契约总列表",
-            response = ContractDTO.class)
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "请求成功")})
-    @RequestMapping(value = "/api", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    public List<ContractDTO> getContractsByURL(
-            @ApiParam(example = "/inf0/name") @RequestParam(value = "api") String url) {
-
-        logger.info("Retrieving contracts info from DB filtering by api:{}", url);
-        return contractService.getContractDomainByUrl(url);
-    }
 
     @ApiOperation(value = "Collect contracts filter by specified id",
             notes = "获取指定ID的契约",

@@ -10,6 +10,8 @@ import io.micrometer.core.instrument.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +33,9 @@ public class ContractService {
         contractRepository.save(contract);
 
         logger.info("Adding audit trail for request.");
+        contractDTO.setId(contract.getId());
         ContractAuditTrail contractAuditTrail = contractDTO.convertToAuditTrail();
+        contractAuditTrail.setLastModifiedAction("ADD");
         contractAuditTrailRepository.save(contractAuditTrail);
 
         JenkinsTrigger.build();
@@ -44,8 +48,9 @@ public class ContractService {
         Contract contract = contractDTO.convertToEntity();
         contractRepository.save(contract);
 
-        logger.info("Adding audit trail for request.");
+        logger.info("Adding audit trail for UPDATE request.");
         ContractAuditTrail contractAuditTrail = contractDTO.convertToAuditTrail();
+        contractAuditTrail.setLastModifiedAction("UPDATE");
         contractAuditTrailRepository.save(contractAuditTrail);
 
         JenkinsTrigger.build();
@@ -57,9 +62,11 @@ public class ContractService {
     public void deleteContract(String id){
         contractRepository.deleteById(id);
 
-        logger.info("Adding audit trail for request.");
-//        ContractAuditTrail contractAuditTrail = id.convertToAuditTrail();
-//        contractAuditTrailRepository.save(contractAuditTrail);
+        logger.info("Adding audit trail for DELETE request.");
+        ContractAuditTrail contractAuditTrail = new ContractAuditTrail();
+        contractAuditTrail.setContractID(id);
+        contractAuditTrail.setLastModifiedAction("DELETE");
+        contractAuditTrailRepository.save(contractAuditTrail);
 
         JenkinsTrigger.build();
 
@@ -69,6 +76,7 @@ public class ContractService {
     public List<ContractDTO> getAllContract(){
         return contractRepository.findAll().stream().map(ContractDTO::new).collect(Collectors.toList());
     }
+
 
     public ContractDTO getContractDomainById(String id){
         return contractRepository.findById(id).map(contract -> new ContractDTO(contract)).orElse(null);
@@ -122,5 +130,26 @@ public class ContractService {
     }
 
 
+    public List<ContractDTO> getContractsByExample(String consumerSystem, String consumerID,
+                                                   String providerSystem, String providerID,
+                                                   String api, String method) {
+        Contract contract = new Contract();
+        if (consumerSystem != null) contract.setConsumerSystem(consumerSystem);
+        if (consumerID != null) contract.setConsumerID(consumerID);
+        if (providerSystem != null) contract.setProviderSystem(providerSystem);
+        if (providerID != null) contract.setProviderID(providerID);
+        if (api != null) contract.setApi(api);
+        if (method != null) contract.setMethod(method);
 
+        logger.info("Probe Contract to be filter is {}.", contract);
+
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnoreNullValues()
+                .withIgnorePaths("id", "request", "response", "desc", "contractType");
+
+        Example<Contract> exampleContract = Example.of(contract, matcher);
+
+        return contractRepository.findAll(exampleContract)
+                .stream().map(ContractDTO::new).collect(Collectors.toList());
+    }
 }

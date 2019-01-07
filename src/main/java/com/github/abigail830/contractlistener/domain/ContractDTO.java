@@ -55,20 +55,8 @@ public class ContractDTO {
         this.setMethod(contractEntity.getMethod());
         this.setRequest(contractEntity.getRequest());
         this.setResponse(contractEntity.getResponse());
+        this.setDesc(contractEntity.getDesc());
         this.setContractType(contractEntity.getContractType());
-    }
-
-    public ContractDTO(ContractAuditTrail contractAuditTrail) {
-        this.setId(contractAuditTrail.getId());
-        this.setProviderID(contractAuditTrail.getProviderID());
-        this.setProviderSystem(contractAuditTrail.getProviderSystem());
-        this.setConsumerID(contractAuditTrail.getConsumerID());
-        this.setConsumerSystem(contractAuditTrail.getConsumerSystem());
-        this.setApi(contractAuditTrail.getApi());
-        this.setMethod(contractAuditTrail.getMethod());
-        this.setRequest(contractAuditTrail.getRequest());
-        this.setResponse(contractAuditTrail.getResponse());
-        this.setContractType(contractAuditTrail.getContractType());
     }
 
     public Contract convertToEntity() {
@@ -82,22 +70,24 @@ public class ContractDTO {
         contract.setMethod(this.getMethod());
         contract.setRequest(this.getRequest());
         contract.setResponse(this.getResponse());
+        contract.setDesc(this.getDesc());
         contract.setContractType(this.getContractType());
         return contract;
     }
 
     public ContractAuditTrail convertToAuditTrail() {
-        ContractAuditTrail contract =new ContractAuditTrail();
-        contract.setId(this.getId());
-        contract.setProviderID(this.getProviderID());
-        contract.setProviderSystem(this.getProviderSystem());
-        contract.setConsumerID(this.getConsumerID());
-        contract.setConsumerSystem(this.getConsumerSystem());
-        contract.setApi(this.getApi());
-        contract.setMethod(this.getMethod());
-        contract.setRequest(this.getRequest());
-        contract.setResponse(this.getResponse());
-        contract.setContractType(this.getContractType());
-        return contract;
+        ContractAuditTrail contractAuditTrail = new ContractAuditTrail();
+        contractAuditTrail.setContractID(this.getId());
+        contractAuditTrail.setProviderID(this.getProviderID());
+        contractAuditTrail.setProviderSystem(this.getProviderSystem());
+        contractAuditTrail.setConsumerID(this.getConsumerID());
+        contractAuditTrail.setConsumerSystem(this.getConsumerSystem());
+        contractAuditTrail.setApi(this.getApi());
+        contractAuditTrail.setMethod(this.getMethod());
+        contractAuditTrail.setRequest(this.getRequest());
+        contractAuditTrail.setResponse(this.getResponse());
+        contractAuditTrail.setDesc(this.getDesc());
+        contractAuditTrail.setContractType(this.getContractType());
+        return contractAuditTrail;
     }
 }

@@ -21,20 +21,12 @@ public class Contract {
     private String providerID;
     private String consumerSystem;
     private String consumerID;
-
     private String api;
     private String method;
-
     private String request;
     private String response;
-
+    private String desc;
     private String contractType;
 
 
-    public Contract(String providerSystem, String providerID, String consumerSystem, String consumerID) {
-        this.providerSystem = providerSystem;
-        this.providerID = providerID;
-        this.consumerSystem = consumerSystem;
-        this.consumerID = consumerID;
-    }
 }
