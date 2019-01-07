@@ -28,18 +28,19 @@ public class StreamContractController {
             notes = "为插件获取契约总列表",
             response = ContractDTO.class)
     @ApiResponses(value = {@ApiResponse(code = 200, message = "请求成功")})
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<StreamContractDTO> getAllStreamContracts() {
         logger.info("Retrieving all streamContracts info from DB");
         return streamContractService.getAllStreamContract();
     }
 
-    @ApiOperation(value = "Collect contracts filter by provider info in streamContract format for plugin",
-            notes = "获取指定生产者相关的契约总列表",
+    @ApiOperation(value = "Collect contracts filter by criteria in streamContract format for plugin",
+            notes = "获取指定条件相关的契约总列表",
             response = ContractDTO.class)
     @ApiResponses(value = {@ApiResponse(code = 200, message = "请求成功")})
     @RequestMapping(value = "/provider", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
+    @Deprecated
     public List<StreamContractDTO> getStreamContractsByProviderInfo(
             @ApiParam(example = "provider-system") @RequestParam(value = "providerSystem", required = false) String providerSystem,
             @ApiParam(example = "provider") @RequestParam(value = "providerID", required = false) String providerID) {
@@ -48,17 +49,20 @@ public class StreamContractController {
         return streamContractService.getStreamContractByProviderInfo(providerSystem,providerID);
     }
 
-    @ApiOperation(value = "Collect contracts filter by consumer info in streamContract format for plugin",
-            notes = "获取指定消费者相关的契约总列表",
+    @ApiOperation(value = "Collect contracts filter by criteria in streamContract format for plugin",
+            notes = "获取指定条件相关的契约总列表",
             response = ContractDTO.class)
     @ApiResponses(value = {@ApiResponse(code = 200, message = "请求成功")})
-    @RequestMapping(value = "/consumer", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public List<StreamContractDTO> getStreamContractsByConsumerInfo(
-            @ApiParam(example = "consumer-system") @RequestParam(value = "consumerSystem", required = false) String consumerSystem,
-            @ApiParam(example = "consumer") @RequestParam(value = "consumerID", required = false) String consumerID) {
+    public List<StreamContractDTO> getStreamContractsByCriteria(
+            @ApiParam("生产者系统") @RequestParam(value = "providerSystem", required = false) String providerSystem,
+            @ApiParam("生产者ID") @RequestParam(value = "providerID", required = false) String providerID,
+            @ApiParam("消费者系统") @RequestParam(value = "consumerSystem", required = false) String consumerSystem,
+            @ApiParam("消费者ID") @RequestParam(value = "consumerID", required = false) String consumerID) {
 
-        logger.info("Retrieving contracts info from DB filtering by provider info: {}/{}", consumerSystem, consumerID);
-        return streamContractService.getStreamContractByProviderInfo(consumerSystem,consumerID);
+        logger.info("Retrieving stream-contracts info from DB");
+        return streamContractService.getStreamContractByExample(providerSystem, providerID, consumerSystem, consumerID);
     }
+
 }

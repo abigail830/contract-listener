@@ -106,18 +106,4 @@ public class ContractController {
         return contractService.getContractDomainById(id);
     }
 
-
-    @ApiOperation(value = "Collect contracts filter by provider info",
-            notes = "获取指定生产者相关的契约总列表",
-            response = ContractDTO.class)
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "请求成功")})
-    @RequestMapping(value = "/provider", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    public List<ContractDTO> getContractsByProviderInfo(
-            @ApiParam(example = "provider-system") @RequestParam(value = "providerSystem", required = false) String providerSystem,
-            @ApiParam(example = "provider") @RequestParam(value = "providerID", required = false) String providerName) {
-
-        logger.info("Retrieving contracts info from DB filtering by provider info: {}/{}", providerSystem, providerName);
-        return contractService.getContractDomainByProviderInfo(providerSystem, providerName);
-    }
 }
