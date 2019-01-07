@@ -11,7 +11,7 @@ public class JenkinsTrigger {
 
     private static final Logger logger = LoggerFactory.getLogger(JenkinsTrigger.class);
 
-    public static final String JENKINS_URL="http://jenkins.saraqian.cn/job/mock-server-sample/build?token=ThisIsAToken";
+    public static final String JENKINS_URL="http://ec2-52-81-45-194.cn-north-1.compute.amazonaws.com.cn:8088/job/mock-server/build?token=ThisIsAToken";
 
 
     public static void build(){
