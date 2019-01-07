@@ -16,11 +16,11 @@ public class StreamContractDTO {
     private String fileExtension;
 
     public StreamContractDTO(Contract contract){
-        this.setFileContent(contract.getContract());
+        this.setFileContent(contract.getRequest());
         this.setFileExtension(contract.getContractType());
         this.setFileName(contract.getId());
-        this.setFilePath(contract.getProviderSystem()+"."+contract.getProviderName()+
-                "_"+contract.getConsumerSystem()+"."+contract.getConsumerName());
+        this.setFilePath(contract.getProviderSystem()+"."+contract.getProviderID()+
+                "_"+contract.getConsumerSystem()+"."+contract.getConsumerID());
 
     }
 

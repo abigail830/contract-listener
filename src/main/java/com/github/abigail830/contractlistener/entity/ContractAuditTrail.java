@@ -17,14 +17,16 @@ public class ContractAuditTrail {
     private String id;
 
     private String providerSystem;
-    private String providerName;
+    private String providerID;
     private String consumerSystem;
-    private String consumerName;
+    private String consumerID;
 
-    private String url;
-    private String httpMethod;
+    private String api;
+    private String method;
 
-    private String contract;
+    private String request;
+    private String response;
+
     private String contractType;
 
 //    @CreatedDate

@@ -35,16 +35,16 @@ public class ContractAuditTrailController {
         return contractAuditTrailService.getAllContractAuditTrail();
     }
 
-    @ApiOperation(value = "Collect contracts autdit trail filter by specified url",
+    @ApiOperation(value = "Collect contracts autdit trail filter by specified api",
             notes = "获取指定URL路径的契约监控记录总列表",
             response = ContractDTO.class)
     @ApiResponses(value = {@ApiResponse(code = 200, message = "请求成功")})
-    @RequestMapping(value = "/url", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/api", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public List<ContractAuditTrailDTO> getContractAuditTrailByURL(
-            @ApiParam(example = "/inf0/name") @RequestParam(value = "url") String url) {
+            @ApiParam(example = "/info/name") @RequestParam(value = "api") String api) {
 
-        logger.info("Retrieving contracts audit trail info from DB filtering by url:{}", url);
-        return contractAuditTrailService.getContractDomainByUrl(url);
+        logger.info("Retrieving contracts audit trail info from DB filtering by api:{}", api);
+        return contractAuditTrailService.getContractDomainByUrl(api);
     }
 }

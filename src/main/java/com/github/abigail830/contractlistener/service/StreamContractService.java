@@ -21,14 +21,14 @@ public class StreamContractService {
         return contractRepository.findAll().stream().map(StreamContractDTO::new).collect(Collectors.toList());
     }
 
-    public List<StreamContractDTO> getStreamContractByProviderInfo(String providerSystem, String providerName){
+    public List<StreamContractDTO> getStreamContractByProviderInfo(String providerSystem, String providerID){
 
-        if(StringUtils.isNotBlank(providerName) && StringUtils.isNotBlank(providerSystem)){
-            return contractRepository.findByProviderSystemAndProviderName(providerSystem, providerName)
+        if(StringUtils.isNotBlank(providerID) && StringUtils.isNotBlank(providerSystem)){
+            return contractRepository.findByProviderSystemAndProviderID(providerSystem, providerID)
                     .stream().map(StreamContractDTO::new).collect(Collectors.toList());
 
-        }else if(StringUtils.isNotBlank(providerName)){
-            return contractRepository.findByProviderName(providerName)
+        }else if(StringUtils.isNotBlank(providerID)){
+            return contractRepository.findByProviderID(providerID)
                     .stream().map(StreamContractDTO::new).collect(Collectors.toList());
 
         }else if(StringUtils.isNotBlank(providerSystem)){
@@ -41,14 +41,14 @@ public class StreamContractService {
         }
     }
 
-    public List<StreamContractDTO> getStreamContractByConsumerInfo(String consumerSystem, String consumerName){
+    public List<StreamContractDTO> getStreamContractByConsumerInfo(String consumerSystem, String consumerID){
 
-        if(StringUtils.isNotBlank(consumerName) && StringUtils.isNotBlank(consumerSystem)){
-            return contractRepository.findByConsumerSystemAndConsumerName(consumerSystem, consumerName)
+        if(StringUtils.isNotBlank(consumerID) && StringUtils.isNotBlank(consumerSystem)){
+            return contractRepository.findByConsumerSystemAndConsumerID(consumerSystem, consumerID)
                     .stream().map(StreamContractDTO::new).collect(Collectors.toList());
 
-        }else if(StringUtils.isNotBlank(consumerName)){
-            return contractRepository.findByConsumerName(consumerName)
+        }else if(StringUtils.isNotBlank(consumerID)){
+            return contractRepository.findByConsumerID(consumerID)
                     .stream().map(StreamContractDTO::new).collect(Collectors.toList());
 
         }else if(StringUtils.isNotBlank(consumerSystem)){

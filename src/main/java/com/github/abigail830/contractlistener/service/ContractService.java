@@ -26,32 +26,43 @@ public class ContractService {
     @Autowired
     ContractAuditTrailRepository contractAuditTrailRepository;
 
-    public List<ContractDTO> addOrUpdateContract(ContractDTO contractDTO){
+    public ContractDTO addContract(ContractDTO contractDTO){
         Contract contract = contractDTO.convertToEntity();
         contractRepository.save(contract);
 
-        logger.info("Adding audit trail for contract.");
+        logger.info("Adding audit trail for request.");
         ContractAuditTrail contractAuditTrail = contractDTO.convertToAuditTrail();
         contractAuditTrailRepository.save(contractAuditTrail);
 
         JenkinsTrigger.build();
 
         //query back the latest image from DB
-        return contractRepository.findAll().stream().map(ContractDTO::new).collect(Collectors.toList());
+        return null;
     }
 
-    public List<ContractDTO> deleteContract(ContractDTO contractDTO){
+    public ContractDTO updateContract(ContractDTO contractDTO){
         Contract contract = contractDTO.convertToEntity();
-        contractRepository.delete(contract);
+        contractRepository.save(contract);
 
-        logger.info("Adding audit trail for contract.");
+        logger.info("Adding audit trail for request.");
         ContractAuditTrail contractAuditTrail = contractDTO.convertToAuditTrail();
         contractAuditTrailRepository.save(contractAuditTrail);
 
         JenkinsTrigger.build();
 
-        //query back the latest image from DB
-        return contractRepository.findAll().stream().map(ContractDTO::new).collect(Collectors.toList());
+        //return the current
+        return contractDTO;
+    }
+
+    public void deleteContract(String id){
+        contractRepository.deleteById(id);
+
+        logger.info("Adding audit trail for request.");
+//        ContractAuditTrail contractAuditTrail = id.convertToAuditTrail();
+//        contractAuditTrailRepository.save(contractAuditTrail);
+
+        JenkinsTrigger.build();
+
     }
 
 
@@ -64,18 +75,18 @@ public class ContractService {
     }
 
     public List<ContractDTO> getContractDomainByUrl(String url){
-        return contractRepository.findByUrl(url)
+        return contractRepository.findByApi(url)
                 .stream().map(ContractDTO::new).collect(Collectors.toList());
     }
 
     public List<ContractDTO> getContractDomainByProviderInfo(String providerSystem, String providerName){
 
         if(StringUtils.isNotBlank(providerName) && StringUtils.isNotBlank(providerSystem)){
-            return contractRepository.findByProviderSystemAndProviderName(providerSystem, providerName)
+            return contractRepository.findByProviderSystemAndProviderID(providerSystem, providerName)
                     .stream().map(ContractDTO::new).collect(Collectors.toList());
 
         }else if(StringUtils.isNotBlank(providerName)){
-            return contractRepository.findByProviderName(providerName)
+            return contractRepository.findByProviderID(providerName)
                     .stream().map(ContractDTO::new).collect(Collectors.toList());
 
         }else if(StringUtils.isNotBlank(providerSystem)){
@@ -92,11 +103,11 @@ public class ContractService {
 
     public List<ContractDTO> getContractDomainByConsumerInfo(String consumerSystem, String consumerName){
         if(StringUtils.isNotBlank(consumerName) && StringUtils.isNotBlank(consumerSystem)){
-            return contractRepository.findByConsumerSystemAndConsumerName(consumerSystem, consumerName)
+            return contractRepository.findByConsumerSystemAndConsumerID(consumerSystem, consumerName)
                     .stream().map(ContractDTO::new).collect(Collectors.toList());
 
         }else if(StringUtils.isNotBlank(consumerName)){
-            return contractRepository.findByConsumerName(consumerName)
+            return contractRepository.findByConsumerID(consumerName)
                     .stream().map(ContractDTO::new).collect(Collectors.toList());
 
         }else if(StringUtils.isNotBlank(consumerSystem)){

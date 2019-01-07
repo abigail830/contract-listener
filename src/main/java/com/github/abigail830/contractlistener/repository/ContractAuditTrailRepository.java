@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface ContractAuditTrailRepository extends MongoRepository<ContractAuditTrail, String> {
 
-    public List<ContractAuditTrail> findByUrl(String url);
-//    public List<ContractAuditTrail> findByProviderSystemAndProviderName(String providerSystem, String providerName);
-//    public List<ContractAuditTrail> findByConsumerSystemAndConsumerName(String consumerSystem, String consumerName);
+    public List<ContractAuditTrail> findByApi(String api);
+//    public List<ContractAuditTrail> findByProviderSystemAndProviderName(String providerSystem, String providerID);
+//    public List<ContractAuditTrail> findByConsumerSystemAndConsumerName(String consumerSystem, String consumerID);
 }

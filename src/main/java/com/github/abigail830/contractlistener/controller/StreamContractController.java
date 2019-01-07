@@ -42,10 +42,10 @@ public class StreamContractController {
     @ResponseBody
     public List<StreamContractDTO> getStreamContractsByProviderInfo(
             @ApiParam(example = "provider-system") @RequestParam(value = "providerSystem", required = false) String providerSystem,
-            @ApiParam(example = "provider") @RequestParam(value = "providerName", required = false) String providerName) {
+            @ApiParam(example = "provider") @RequestParam(value = "providerID", required = false) String providerID) {
 
-        logger.info("Retrieving contracts info from DB filtering by provider info: {}/{}", providerSystem, providerName);
-        return streamContractService.getStreamContractByProviderInfo(providerSystem,providerName);
+        logger.info("Retrieving contracts info from DB filtering by provider info: {}/{}", providerSystem, providerID);
+        return streamContractService.getStreamContractByProviderInfo(providerSystem,providerID);
     }
 
     @ApiOperation(value = "Collect contracts filter by consumer info in streamContract format for plugin",
@@ -56,9 +56,9 @@ public class StreamContractController {
     @ResponseBody
     public List<StreamContractDTO> getStreamContractsByConsumerInfo(
             @ApiParam(example = "consumer-system") @RequestParam(value = "consumerSystem", required = false) String consumerSystem,
-            @ApiParam(example = "consumer") @RequestParam(value = "consumerName", required = false) String consumerName) {
+            @ApiParam(example = "consumer") @RequestParam(value = "consumerID", required = false) String consumerID) {
 
-        logger.info("Retrieving contracts info from DB filtering by provider info: {}/{}", consumerSystem, consumerName);
-        return streamContractService.getStreamContractByProviderInfo(consumerSystem,consumerName);
+        logger.info("Retrieving contracts info from DB filtering by provider info: {}/{}", consumerSystem, consumerID);
+        return streamContractService.getStreamContractByProviderInfo(consumerSystem,consumerID);
     }
 }

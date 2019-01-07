@@ -9,11 +9,11 @@ import java.util.List;
 @Repository
 public interface ContractRepository extends MongoRepository<Contract, String> {
 
-    public List<Contract> findByUrl(String url);
-    public List<Contract> findByProviderSystemAndProviderName(String providerSystem, String providerName);
+    public List<Contract> findByApi(String api);
+    public List<Contract> findByProviderSystemAndProviderID(String providerSystem, String providerID);
     public List<Contract> findByProviderSystem(String providerSystem);
-    public List<Contract> findByProviderName(String providerName);
-    public List<Contract> findByConsumerSystemAndConsumerName(String consumerSystem, String consumerName);
+    public List<Contract> findByProviderID(String providerID);
+    public List<Contract> findByConsumerSystemAndConsumerID(String consumerSystem, String consumerID);
     public List<Contract> findByConsumerSystem(String consumerSystem);
-    public List<Contract> findByConsumerName(String consumerName);
+    public List<Contract> findByConsumerID(String consumerID);
 }

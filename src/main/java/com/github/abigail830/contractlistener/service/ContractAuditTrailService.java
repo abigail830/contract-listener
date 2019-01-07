@@ -15,9 +15,9 @@ public class ContractAuditTrailService {
     ContractAuditTrailRepository contractAuditTrailRepository;
 
     public List<ContractAuditTrailDTO> getContractDomainByUrl(String url){
-        contractAuditTrailRepository.findByUrl(url).stream().forEach(System.out::println);
+        contractAuditTrailRepository.findByApi(url).stream().forEach(System.out::println);
 
-        return contractAuditTrailRepository.findByUrl(url)
+        return contractAuditTrailRepository.findByApi(url)
                 .stream().map(ContractAuditTrailDTO::new).collect(Collectors.toList());
     }
 

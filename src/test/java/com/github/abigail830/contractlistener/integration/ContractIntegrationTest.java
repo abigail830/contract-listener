@@ -27,18 +27,18 @@ public class ContractIntegrationTest {
 	@Before
 	public void setUp() throws Exception {
 		ContractDTO contract1 = new ContractDTO("id1",
-				"providerSystem", "providerName",
+				"providerSystem", "providerID",
 				"consumerSystem","consumerName1",
 				"Url1","GET",
-				"This is the contract content","yml");
-		contractService.addOrUpdateContract(contract1);
+				"This is the request content","This is the response content", "This is desc","yml");
+		contractService.addContract(contract1);
 
 		ContractDTO contract2 = new ContractDTO("id2",
-				"providerSystem", "providerName",
+				"providerSystem", "providerID",
 				"consumerSystem","consumerName2",
 				"Url2","GET",
-				"This is the contract content","yml");
-		contractService.addOrUpdateContract(contract2);
+				"This is the request content","This is the request content", "This is desc","yml");
+		contractService.addContract(contract2);
 	}
 
 	@Test
