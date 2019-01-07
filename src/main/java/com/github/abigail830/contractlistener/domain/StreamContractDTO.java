@@ -16,7 +16,7 @@ public class StreamContractDTO {
     private String fileExtension;
 
     public StreamContractDTO(Contract contract){
-        this.setFileContent(contract.getRequest());
+        this.setFileContent(contract.getRequest() + "\n" + contract.getResponse());
         this.setFileExtension(contract.getContractType());
         this.setFileName(contract.getId());
         this.setFilePath(contract.getProviderSystem()+"."+contract.getProviderID()+
