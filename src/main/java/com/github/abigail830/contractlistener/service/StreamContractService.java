@@ -1,8 +1,6 @@
 package com.github.abigail830.contractlistener.service;
 
-import com.github.abigail830.contractlistener.domain.ContractDTO;
 import com.github.abigail830.contractlistener.domain.StreamContractDTO;
-import com.github.abigail830.contractlistener.entity.Contract;
 import com.github.abigail830.contractlistener.repository.ContractRepository;
 import io.micrometer.core.instrument.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,24 +39,4 @@ public class StreamContractService {
         }
     }
 
-    public List<StreamContractDTO> getStreamContractByConsumerInfo(String consumerSystem, String consumerID){
-
-        if(StringUtils.isNotBlank(consumerID) && StringUtils.isNotBlank(consumerSystem)){
-            return contractRepository.findByConsumerSystemAndConsumerID(consumerSystem, consumerID)
-                    .stream().map(StreamContractDTO::new).collect(Collectors.toList());
-
-        }else if(StringUtils.isNotBlank(consumerID)){
-            return contractRepository.findByConsumerID(consumerID)
-                    .stream().map(StreamContractDTO::new).collect(Collectors.toList());
-
-        }else if(StringUtils.isNotBlank(consumerSystem)){
-            return contractRepository.findByConsumerSystem(consumerSystem)
-                    .stream().map(StreamContractDTO::new).collect(Collectors.toList());
-
-        }else{
-            return contractRepository.findAll()
-                    .stream().map(StreamContractDTO::new).collect(Collectors.toList());
-        }
-
-    }
 }

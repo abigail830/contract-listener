@@ -1,6 +1,6 @@
 package com.github.abigail830.contractlistener.controller;
 
-import com.github.abigail830.contractlistener.domain.ErrorDetails;
+import com.github.abigail830.contractlistener.domain.ErrorDetailsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,16 +20,16 @@ public class CustomizedResponseEntityExceptionController extends ResponseEntityE
     private static final Logger logger = LoggerFactory.getLogger(CustomizedResponseEntityExceptionController.class);
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public final ResponseEntity<ErrorDetails> handleIllegalArgumentExceptionException(IllegalArgumentException ex,
-                                                                                      WebRequest request) {
+    public final ResponseEntity<ErrorDetailsDTO> handleIllegalArgumentExceptionException(IllegalArgumentException ex,
+                                                                                         WebRequest request) {
 
-        ErrorDetails errorDetails = new ErrorDetails(
+        ErrorDetailsDTO errorDetailsDTO = new ErrorDetailsDTO(
                 new Timestamp(System.currentTimeMillis()),
                 ex.getMessage(),
                 request.getDescription(false),
                 HttpStatus.UNPROCESSABLE_ENTITY);
 
-        logger.error("HTTP error would be replied for Exception {} ", errorDetails);
-        return new ResponseEntity<>(errorDetails, HttpStatus.UNPROCESSABLE_ENTITY);
+        logger.error("HTTP error would be replied for Exception {} ", errorDetailsDTO);
+        return new ResponseEntity<>(errorDetailsDTO, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }

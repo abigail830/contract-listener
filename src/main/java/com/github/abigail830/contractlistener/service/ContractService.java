@@ -5,6 +5,7 @@ import com.github.abigail830.contractlistener.entity.Contract;
 import com.github.abigail830.contractlistener.entity.ContractAuditTrail;
 import com.github.abigail830.contractlistener.repository.ContractAuditTrailRepository;
 import com.github.abigail830.contractlistener.repository.ContractRepository;
+import com.github.abigail830.contractlistener.util.JenkinsProperties;
 import com.github.abigail830.contractlistener.util.JenkinsTrigger;
 import io.micrometer.core.instrument.util.StringUtils;
 import org.slf4j.Logger;
@@ -28,32 +29,37 @@ public class ContractService {
     @Autowired
     ContractAuditTrailRepository contractAuditTrailRepository;
 
+    @Autowired
+    JenkinsProperties jenkinsProperties;
+
     public ContractDTO addContract(ContractDTO contractDTO){
-        Contract contract = contractDTO.convertToEntity();
+        Contract contract = contractDTO.convertToContractEntity();
         contractRepository.save(contract);
 
         logger.info("Adding audit trail for request.");
         contractDTO.setId(contract.getId());
-        ContractAuditTrail contractAuditTrail = contractDTO.convertToAuditTrail();
+        ContractAuditTrail contractAuditTrail = contractDTO.convertToAuditTrailEntity();
         contractAuditTrail.setLastModifiedAction("ADD");
         contractAuditTrailRepository.save(contractAuditTrail);
 
-        JenkinsTrigger.build();
+        if (!jenkinsProperties.isSkip())
+            JenkinsTrigger.build(jenkinsProperties.getUrl());
 
         //query back the latest image from DB
         return new ContractDTO(contract);
     }
 
     public ContractDTO updateContract(ContractDTO contractDTO){
-        Contract contract = contractDTO.convertToEntity();
+        Contract contract = contractDTO.convertToContractEntity();
         contractRepository.save(contract);
 
         logger.info("Adding audit trail for UPDATE request.");
-        ContractAuditTrail contractAuditTrail = contractDTO.convertToAuditTrail();
+        ContractAuditTrail contractAuditTrail = contractDTO.convertToAuditTrailEntity();
         contractAuditTrail.setLastModifiedAction("UPDATE");
         contractAuditTrailRepository.save(contractAuditTrail);
 
-        JenkinsTrigger.build();
+        if (!jenkinsProperties.isSkip())
+            JenkinsTrigger.build(jenkinsProperties.getUrl());
 
         //return the current
         return contractDTO;
@@ -68,7 +74,8 @@ public class ContractService {
         contractAuditTrail.setLastModifiedAction("DELETE");
         contractAuditTrailRepository.save(contractAuditTrail);
 
-        JenkinsTrigger.build();
+        if (!jenkinsProperties.isSkip())
+            JenkinsTrigger.build(jenkinsProperties.getUrl());
 
     }
 

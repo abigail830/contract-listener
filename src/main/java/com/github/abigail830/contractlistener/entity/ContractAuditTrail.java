@@ -19,27 +19,22 @@ public class ContractAuditTrail {
     private String id;
 
     private String contractID;
-
     private String providerSystem;
     private String providerID;
     private String consumerSystem;
     private String consumerID;
-
     private String api;
     private String method;
-
     private String request;
     private String response;
-
     private String desc;
-
     private String contractType;
 
     private String lastModifiedAction;
 
 //    @CreatedDate
 //    private DateTime createdAt;
-
+//
 //    @CreatedBy
 //    private String createdBy;
 

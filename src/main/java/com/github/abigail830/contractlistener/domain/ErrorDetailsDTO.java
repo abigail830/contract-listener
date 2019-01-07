@@ -10,14 +10,14 @@ import java.util.Date;
 @Setter
 @Getter
 @ToString
-public class ErrorDetails {
+public class ErrorDetailsDTO {
 
     private Date date;
     private String message;
     private String description;
     private HttpStatus status;
 
-    public ErrorDetails(Date date, String message, String description, HttpStatus unProcessableEntity) {
+    public ErrorDetailsDTO(Date date, String message, String description, HttpStatus unProcessableEntity) {
         this.message = message;
         this.description = description;
         this.date = date;

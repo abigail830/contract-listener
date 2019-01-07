@@ -2,6 +2,7 @@ package com.github.abigail830.contractlistener;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
@@ -22,6 +23,7 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 @EnableMongoAuditing
+@EnableConfigurationProperties
 public class ContractListenerApplication {
 
 	public static void main(String[] args) {

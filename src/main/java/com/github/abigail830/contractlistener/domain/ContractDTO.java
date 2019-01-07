@@ -30,19 +30,19 @@ public class ContractDTO {
 
     @ApiModelProperty(value = "契约针对的HTTP路径", example = "/info/name")
     private String api;
-    @ApiModelProperty(value = "契约针对的HTTP方式", example = "GET")
+    @ApiModelProperty(value = "契约针对的HTTP方式", notes = "GET|POST|PUT|DELETE", example = "GET")
     private String method;
 
-    @ApiModelProperty(value = "契约内容Request部分", example = "Contract Request content")
+    @ApiModelProperty(value = "契约内容Request部分")
     private String request;
 
-    @ApiModelProperty(value = "契约内容Response部分", example="Contract Response content")
+    @ApiModelProperty(value = "契约内容Response部分")
     private String response;
 
     @ApiModelProperty(value = "契约概要描述", example="This is the description")
     private String desc;
 
-    @ApiModelProperty(value = "契约类型", notes = "如yml或者groovy", example = "yml")
+    @ApiModelProperty(value = "契约类型", notes = "yml|groovy", example = "yml")
     private String contractType;
 
     public ContractDTO(Contract contractEntity) {
@@ -59,7 +59,7 @@ public class ContractDTO {
         this.setContractType(contractEntity.getContractType());
     }
 
-    public Contract convertToEntity() {
+    public Contract convertToContractEntity() {
         Contract contract =new Contract();
         contract.setId(this.getId());
         contract.setProviderID(this.getProviderID());
@@ -75,7 +75,7 @@ public class ContractDTO {
         return contract;
     }
 
-    public ContractAuditTrail convertToAuditTrail() {
+    public ContractAuditTrail convertToAuditTrailEntity() {
         ContractAuditTrail contractAuditTrail = new ContractAuditTrail();
         contractAuditTrail.setContractID(this.getId());
         contractAuditTrail.setProviderID(this.getProviderID());
