@@ -36,13 +36,13 @@ public class ContractController {
     public ResponseEntity addNewContract(
             @RequestBody ContractDTO contractDTO) throws ParseException {
 
-        if(StringUtils.isNotBlank(contractDTO.getId())){
-            logger.warn("ID would be ignore when add new contract: {}", contractDTO.getId());
-            contractDTO.setId(null);
-        }
+        if (contractDTO.getId() != null)
+            throw new IllegalArgumentException("ID should not be assigned when HTTP.POST to add new contract. ");
+
+
         logger.info("Going to insert new request: {}", contractDTO);
-        return new ResponseEntity<ContractDTO>(contractService.addContract(contractDTO),
-                HttpStatus.CREATED);
+        return new ResponseEntity<>(contractService.addContract(contractDTO), HttpStatus.CREATED);
+
     }
 
     @ApiOperation(value = "Update Contract",
@@ -54,16 +54,11 @@ public class ContractController {
     public ResponseEntity<ContractDTO> updateContract(
             @RequestBody ContractDTO contractDTO) throws ParseException {
 
-        if(StringUtils.isNotBlank(contractDTO.getId())){
-            logger.info("Going to update request: {}", contractDTO);
-            return new ResponseEntity<ContractDTO>(contractService.updateContract(contractDTO),
-                    HttpStatus.OK);
-        } else{
-            logger.warn("ID should not be blank when trying to update request: {}", contractDTO);
-            return new ResponseEntity<ContractDTO>(contractDTO,
-                    HttpStatus.UNPROCESSABLE_ENTITY);
-        }
+        if (StringUtils.isBlank(contractDTO.getId()))
+            throw new IllegalArgumentException("ID must be assign when HTTP.PUT to update existing contract. ");
 
+        logger.info("Going to update request: {}", contractDTO);
+        return new ResponseEntity<>(contractService.updateContract(contractDTO), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Delete Contract",
@@ -80,8 +75,8 @@ public class ContractController {
 
     }
 
-    @ApiOperation(value = "Collect list of contracts by criteria",
-            notes = "获取契约总列表",
+    @ApiOperation(value = "Collect list of contracts by criteria (full list would be replied if no parameter assigned)",
+            notes = "获取契约列表",
             response = ContractDTO.class)
     @ApiResponses(value = {@ApiResponse(code = 200, message = "请求成功")})
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -91,41 +86,13 @@ public class ContractController {
             @ApiParam("生产者系统") @RequestParam(value = "providerSystem", required = false) String providerSystem,
             @ApiParam("生产者ID") @RequestParam(value = "providerID", required = false) String providerID,
             @ApiParam("HTTP URL") @RequestParam(value = "api", required = false) String api,
-            @ApiParam("HTTP方法") @RequestParam(value = "method", required = false) String method) {
-
+            @ApiParam("HTTP方法") @RequestParam(value = "method", required = false) String method,
+            @ApiParam("契约类型") @RequestParam(value = "contractType", required = false) String contractType) {
 
         logger.info("Retrieving contracts info from DB.");
-        return contractService.getContractsByExample(consumerSystem, consumerID, providerSystem, providerID, api, method);
+        return contractService.getContractsByExample(consumerSystem, consumerID, providerSystem, providerID,
+                api, method, contractType);
     }
-
-    @ApiOperation(value = "Collect contracts filter by provider info",
-            notes = "获取指定生产者相关的契约总列表",
-            response = ContractDTO.class)
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "请求成功")})
-    @RequestMapping(value = "/provider", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    public List<ContractDTO> getContractsByProviderInfo(
-            @ApiParam(example = "provider-system") @RequestParam(value = "providerSystem", required = false) String providerSystem,
-            @ApiParam(example = "provider") @RequestParam(value = "providerID", required = false) String providerName) {
-
-        logger.info("Retrieving contracts info from DB filtering by provider info: {}/{}", providerSystem, providerName);
-        return contractService.getContractDomainByProviderInfo(providerSystem,providerName);
-    }
-
-    @ApiOperation(value = "Collect contracts filter by consumer info",
-            notes = "获取指定消费者相关的契约总列表",
-            response = ContractDTO.class)
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "请求成功")})
-    @RequestMapping(value = "/consumer", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    public List<ContractDTO> getContractsByConsumerInfo(
-            @ApiParam(example = "consumer-system") @RequestParam(value = "consumerSystem", required = false) String consumerSystem,
-            @ApiParam(example = "consumer") @RequestParam(value = "consumerID", required = false) String consumerName) {
-
-        logger.info("Retrieving contracts info from DB filtering by consumer info: {}/{}", consumerSystem, consumerName);
-        return contractService.getContractDomainByConsumerInfo(consumerSystem,consumerName);
-    }
-
 
     @ApiOperation(value = "Collect contracts filter by specified id",
             notes = "获取指定ID的契约",
@@ -138,5 +105,20 @@ public class ContractController {
 
         logger.info("Retrieving contracts info from DB filtering by id:{}", id);
         return contractService.getContractDomainById(id);
+    }
+
+
+    @ApiOperation(value = "Collect contracts filter by provider info",
+            notes = "获取指定生产者相关的契约总列表",
+            response = ContractDTO.class)
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "请求成功")})
+    @RequestMapping(value = "/provider", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<ContractDTO> getContractsByProviderInfo(
+            @ApiParam(example = "provider-system") @RequestParam(value = "providerSystem", required = false) String providerSystem,
+            @ApiParam(example = "provider") @RequestParam(value = "providerID", required = false) String providerName) {
+
+        logger.info("Retrieving contracts info from DB filtering by provider info: {}/{}", providerSystem, providerName);
+        return contractService.getContractDomainByProviderInfo(providerSystem, providerName);
     }
 }

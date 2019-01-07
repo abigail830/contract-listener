@@ -109,47 +109,24 @@ public class ContractService {
     }
 
 
-    public List<ContractDTO> getContractDomainByConsumerInfo(String consumerSystem, String consumerName){
-        if(StringUtils.isNotBlank(consumerName) && StringUtils.isNotBlank(consumerSystem)){
-            return contractRepository.findByConsumerSystemAndConsumerID(consumerSystem, consumerName)
-                    .stream().map(ContractDTO::new).collect(Collectors.toList());
-
-        }else if(StringUtils.isNotBlank(consumerName)){
-            return contractRepository.findByConsumerID(consumerName)
-                    .stream().map(ContractDTO::new).collect(Collectors.toList());
-
-        }else if(StringUtils.isNotBlank(consumerSystem)){
-            return contractRepository.findByConsumerSystem(consumerSystem)
-                    .stream().map(ContractDTO::new).collect(Collectors.toList());
-
-        }else{
-            return contractRepository.findAll()
-                    .stream().map(ContractDTO::new).collect(Collectors.toList());
-        }
-
-    }
-
-
     public List<ContractDTO> getContractsByExample(String consumerSystem, String consumerID,
                                                    String providerSystem, String providerID,
-                                                   String api, String method) {
+                                                   String api, String method, String contractType) {
         Contract contract = new Contract();
-        if (consumerSystem != null) contract.setConsumerSystem(consumerSystem);
-        if (consumerID != null) contract.setConsumerID(consumerID);
-        if (providerSystem != null) contract.setProviderSystem(providerSystem);
-        if (providerID != null) contract.setProviderID(providerID);
-        if (api != null) contract.setApi(api);
-        if (method != null) contract.setMethod(method);
-
+        contract.setConsumerSystem(consumerSystem);
+        contract.setConsumerID(consumerID);
+        contract.setProviderSystem(providerSystem);
+        contract.setProviderID(providerID);
+        contract.setApi(api);
+        contract.setMethod(method);
+        contract.setContractType(contractType);
         logger.info("Probe Contract to be filter is {}.", contract);
 
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnoreNullValues()
-                .withIgnorePaths("id", "request", "response", "desc", "contractType");
+                .withIgnorePaths("id", "request", "response", "desc");
 
-        Example<Contract> exampleContract = Example.of(contract, matcher);
-
-        return contractRepository.findAll(exampleContract)
+        return contractRepository.findAll(Example.of(contract, matcher))
                 .stream().map(ContractDTO::new).collect(Collectors.toList());
     }
 }
