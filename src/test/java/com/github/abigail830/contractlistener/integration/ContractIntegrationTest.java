@@ -27,15 +27,15 @@ public class ContractIntegrationTest {
 	@Before
 	public void setUp() throws Exception {
 		ContractDTO contract1 = new ContractDTO("id1",
-				"providerSystem", "providerID",
-				"consumerSystem","consumerName1",
+				"providerSystem", "providerID", "providerName",
+				"consumerSystem", "consumerName1", "consumerName",
 				"Url1","GET",
 				"This is the request content","This is the response content", "This is desc","yml");
 		contractService.addContract(contract1);
 
 		ContractDTO contract2 = new ContractDTO("id2",
-				"providerSystem", "providerID",
-				"consumerSystem","consumerName2",
+				"providerSystem", "providerID", "providerName",
+				"consumerSystem", "consumerName2", "consumerName",
 				"Url2","GET",
 				"This is the request content","This is the request content", "This is desc","yml");
 		contractService.addContract(contract2);
@@ -47,18 +47,18 @@ public class ContractIntegrationTest {
 	}
 
 	@Test
-	public void getContractDomainByUrl() {
-		List<ContractDTO> contractDTOByUrl1 = contractService.getContractDomainByUrl("Url1");
+	public void getContractDomainByApi() {
+		List<ContractDTO> contractDTOByUrl1 = contractService.getContractsByExample("", "", "",
+				"", "", "", "Url1", "", "");
 		Assert.assertEquals(1, contractDTOByUrl1.size());
 
-		List<ContractDTO> contractDTOByUrl2 = contractService.getContractDomainByUrl("Url2");
+		List<ContractDTO> contractDTOByUrl2 = contractService.getContractsByExample("", "", "",
+				"", "", "", "Url2", "", "");
 		Assert.assertEquals(1, contractDTOByUrl2.size());
 
-		List<ContractDTO> contractDTOByUrl3 = contractService.getContractDomainByUrl("Url3");
+		List<ContractDTO> contractDTOByUrl3 = contractService.getContractsByExample("", "", "",
+				"", "", "", "Url3", "", "");
 		Assert.assertEquals(0, contractDTOByUrl3.size());
-
-		Assert.assertEquals(2, contractAuditTrailService.getAllContractAuditTrail().size());
-
 	}
 
 }

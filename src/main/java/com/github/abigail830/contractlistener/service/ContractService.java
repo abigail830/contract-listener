@@ -7,7 +7,6 @@ import com.github.abigail830.contractlistener.repository.ContractAuditTrailRepos
 import com.github.abigail830.contractlistener.repository.ContractRepository;
 import com.github.abigail830.contractlistener.util.JenkinsProperties;
 import com.github.abigail830.contractlistener.util.JenkinsTrigger;
-import io.micrometer.core.instrument.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,41 +88,19 @@ public class ContractService {
         return contractRepository.findById(id).map(contract -> new ContractDTO(contract)).orElse(null);
     }
 
-    public List<ContractDTO> getContractDomainByUrl(String url){
-        return contractRepository.findByApi(url)
-                .stream().map(ContractDTO::new).collect(Collectors.toList());
-    }
 
-    public List<ContractDTO> getContractDomainByProviderInfo(String providerSystem, String providerName){
-
-        if(StringUtils.isNotBlank(providerName) && StringUtils.isNotBlank(providerSystem)){
-            return contractRepository.findByProviderSystemAndProviderID(providerSystem, providerName)
-                    .stream().map(ContractDTO::new).collect(Collectors.toList());
-
-        }else if(StringUtils.isNotBlank(providerName)){
-            return contractRepository.findByProviderID(providerName)
-                    .stream().map(ContractDTO::new).collect(Collectors.toList());
-
-        }else if(StringUtils.isNotBlank(providerSystem)){
-            return contractRepository.findByProviderSystem(providerSystem)
-                    .stream().map(ContractDTO::new).collect(Collectors.toList());
-
-        }else{
-            return contractRepository.findAll()
-                    .stream().map(ContractDTO::new).collect(Collectors.toList());
-        }
-
-    }
-
-
-    public List<ContractDTO> getContractsByExample(String consumerSystem, String consumerID,
-                                                   String providerSystem, String providerID,
+    public List<ContractDTO> getContractsByExample(String consumerSystem, String consumerID, String consumerName,
+                                                   String providerSystem, String providerID, String providerName,
                                                    String api, String method, String contractType) {
         Contract contract = new Contract();
         contract.setConsumerSystem(consumerSystem);
         contract.setConsumerID(consumerID);
+        contract.setConsumerName(consumerName);
+
         contract.setProviderSystem(providerSystem);
         contract.setProviderID(providerID);
+        contract.setProviderName(providerName);
+
         contract.setApi(api);
         contract.setMethod(method);
         contract.setContractType(contractType);

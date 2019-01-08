@@ -82,15 +82,17 @@ public class ContractController {
     public ResponseEntity<List<ContractDTO>> getContractsByExample(
             @ApiParam("消费者系统") @RequestParam(value = "consumerSystem", required = false) String consumerSystem,
             @ApiParam("消费者ID") @RequestParam(value = "consumerID", required = false) String consumerID,
+            @ApiParam("消费者名称") @RequestParam(value = "consumerName", required = false) String consumerName,
             @ApiParam("生产者系统") @RequestParam(value = "providerSystem", required = false) String providerSystem,
             @ApiParam("生产者ID") @RequestParam(value = "providerID", required = false) String providerID,
+            @ApiParam("生产者名称") @RequestParam(value = "providerName", required = false) String providerName,
             @ApiParam("HTTP URL") @RequestParam(value = "api", required = false) String api,
             @ApiParam("HTTP方法") @RequestParam(value = "method", required = false) String method,
             @ApiParam("契约类型") @RequestParam(value = "contractType", required = false) String contractType) {
 
         logger.info("Retrieving contracts info from DB.");
-        return new ResponseEntity<>(contractService.getContractsByExample(consumerSystem, consumerID,
-                providerSystem, providerID, api, method, contractType), HttpStatus.OK);
+        return new ResponseEntity<>(contractService.getContractsByExample(consumerSystem, consumerID, consumerName,
+                providerSystem, providerID, providerName, api, method, contractType), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Collect contracts filter by specified id",

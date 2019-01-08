@@ -21,8 +21,10 @@ public class ContractAuditTrail {
     private String contractID;
     private String providerSystem;
     private String providerID;
+    private String providerName;
     private String consumerSystem;
     private String consumerID;
+    private String consumerName;
     private String api;
     private String method;
     private String request;
