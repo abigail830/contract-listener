@@ -48,16 +48,19 @@ public class ContractIntegrationTest {
 
 	@Test
 	public void getContractDomainByApi() {
-		List<ContractDTO> contractDTOByUrl1 = contractService.getContractsByExample("", "", "",
-				"", "", "", "Url1", "", "");
+        List<ContractDTO> contractDTOByUrl1 = contractService.getContractsByExample(null, null,
+                null, null, null, null, "Url1",
+                null, null);
 		Assert.assertEquals(1, contractDTOByUrl1.size());
 
-		List<ContractDTO> contractDTOByUrl2 = contractService.getContractsByExample("", "", "",
-				"", "", "", "Url2", "", "");
+        List<ContractDTO> contractDTOByUrl2 = contractService.getContractsByExample(null, null,
+                null, null, null, null, "Url2",
+                null, null);
 		Assert.assertEquals(1, contractDTOByUrl2.size());
 
-		List<ContractDTO> contractDTOByUrl3 = contractService.getContractsByExample("", "", "",
-				"", "", "", "Url3", "", "");
+        List<ContractDTO> contractDTOByUrl3 = contractService.getContractsByExample(null, null,
+                null, null, null, null, "Url3",
+                null, null);
 		Assert.assertEquals(0, contractDTOByUrl3.size());
 	}
 
