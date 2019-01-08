@@ -34,20 +34,6 @@ public class StreamContractController {
         return streamContractService.getAllStreamContract();
     }
 
-    @ApiOperation(value = "Collect contracts filter by criteria in streamContract format for plugin",
-            notes = "获取指定条件相关的契约总列表",
-            response = ContractDTO.class)
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "请求成功")})
-    @RequestMapping(value = "/provider", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    @Deprecated
-    public List<StreamContractDTO> getStreamContractsByProviderInfo(
-            @ApiParam(example = "provider-system") @RequestParam(value = "providerSystem", required = false) String providerSystem,
-            @ApiParam(example = "provider") @RequestParam(value = "providerID", required = false) String providerID) {
-
-        logger.info("Retrieving contracts info from DB filtering by provider info: {}/{}", providerSystem, providerID);
-        return streamContractService.getStreamContractByProviderInfo(providerSystem,providerID);
-    }
 
     @ApiOperation(value = "Collect contracts filter by criteria in streamContract format for plugin",
             notes = "获取指定条件相关的契约总列表",
