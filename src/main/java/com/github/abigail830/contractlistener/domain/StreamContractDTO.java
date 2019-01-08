@@ -19,8 +19,7 @@ public class StreamContractDTO {
         this.setFileContent(contract.getRequest() + "\n" + contract.getResponse());
         this.setFileExtension(contract.getContractType());
         this.setFileName(contract.getId());
-        this.setFilePath(contract.getProviderSystem()+"."+contract.getProviderID()+
-                "_"+contract.getConsumerSystem()+"."+contract.getConsumerID());
+        this.setFilePath("contractConsumer" + "_" + contract.getConsumerSystem() + "." + contract.getConsumerID());
 
     }
 
